@@ -1,15 +1,11 @@
 import math
 import os
-import sys
 import xml.etree.ElementTree as ET
 from functools import partial
 
 import matplotlib.font_manager as fm
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
-
-sys.path.append('..')
-
 
 
 def get_label(path):
@@ -180,8 +176,8 @@ def connected_region(coord_list, fm_shape, low, high):
 
 
 def dfs(mask, visited, i, j, reg):
-    #direct = [[-1, 0], [0, 1], [1, 0], [0, -1]]
-    direct = [[-1,0],[0,1],[1,0],[0,-1],[-1,-1],[-1,1],[1,1],[1,-1]]
+    # direct = [[-1, 0], [0, 1], [1, 0], [0, -1]]
+    direct = [[-1, 0], [0, 1], [1, 0], [0, -1], [-1, -1], [-1, 1], [1, 1], [1, -1]]
     if i < 0 or i >= mask.shape[0]:
         return
     if j < 0 or j >= mask.shape[1]:
@@ -313,7 +309,7 @@ def multi_apply(func, *args, **kwargs):
     return tuple(map(list, zip(*map_results)))
 
 
-def data2coco(data, voc_categories):
+def data2coco(data, file, voc_categories):
     json_dict = {"images": [], "type": "instances", "annotations": [],
                  "categories": []}
     categories = voc_categories
@@ -326,20 +322,21 @@ def data2coco(data, voc_categories):
         image = {'file_name': filename, 'height': height, 'width': width,
                  'id': image_id}
         json_dict['images'].append(image)
-        for box, score, label in zip(d['annots']['boxes'], d['annots']['scores'], d['annots']['labels']):
+        i = 0
+        for box, label in zip(d['annots']['boxes'], d['annots']['labels']):
             category_id = categories[label]
-            xmin = box[0]
-            ymin = box[1]
-            xmax = box[2]
-            ymax = box[3]
+            xmin, ymin, xmax, ymax = box[0], box[1], box[2], box[3]
             o_width = abs(xmax - xmin)
             o_height = abs(ymax - ymin)
             ann = {'area': o_width * o_height, 'iscrowd': 0, 'image_id':
-                image_id, 'bbox': [xmin, ymin, o_width, o_height], 'score': score,
+                image_id, 'bbox': [xmin, ymin, o_width, o_height],
                    'category_id': category_id, 'id': bnd_id, 'ignore': 0,
                    'segmentation': []}
+            if file == 'Dt':
+                ann.update({'score': d['annots']['scores'][i]})
             json_dict['annotations'].append(ann)
-            bnd_id = bnd_id + 1
+            bnd_id += 1
+            i += 1
 
     for cate, cid in categories.items():
         cat = {'supercategory': 'none', 'id': cid, 'name': cate}

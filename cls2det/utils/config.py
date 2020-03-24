@@ -5,7 +5,7 @@ from importlib import import_module
 
 from addict import Dict
 
-from utils.path import check_file_exist
+from .path import check_file_exist
 
 
 class ConfigDict(Dict):

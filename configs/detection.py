@@ -1,6 +1,6 @@
 # commom
 stride = 32
-gpu = 0
+gpu = None
 debug = False
 cls = 'dog'
 
@@ -12,7 +12,7 @@ model = dict(
 )
 
 # data
-work_dir = '/DATA/home/yuxinzou/cls2det/'
+work_dir = 'cls2det/'
 norm_cfg = dict(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 data = dict(
     fname_list=dict(
@@ -63,12 +63,12 @@ save_folder = work_dir + 'data/result' if save_images else None
 # json files and parameter for evaluation
 eval = dict(
     train=dict(
-        gt=work_dir + 'data/eval/coco_train_Gt.json',
-        dt=work_dir + 'data/eval/coco_train_Dt.json'
+        gt=work_dir + 'data/eval/train_Gt.json',
+        dt=work_dir + 'data/eval/train_Dt.json'
     ),
     val=dict(
-        gt=work_dir + 'data/eval/coco_val_Gt.json',
-        dt=work_dir + 'data/eval/coco_val_Dt.json'
+        gt=work_dir + 'data/eval/val_Gt.json',
+        dt=work_dir + 'data/eval/val_Dt.json'
     ),
     iou_thres=0.5
 )

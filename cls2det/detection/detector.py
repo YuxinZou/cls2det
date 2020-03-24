@@ -1,17 +1,14 @@
 import json
 import os
-import sys
 
 import numpy as np
 from PIL import Image
 
-from detection.util import (box_rescale, cell2box, data2coco, draw, func,
-                            get_img_annotations, get_label, get_scale, nms,
-                            remover_outlier, resize)
-from utils.classifier import Classifier
-from utils.config import Config
-
-sys.path.append('..')
+from .util import (box_rescale, cell2box, data2coco, draw, func,
+                   get_img_annotations, get_label, get_scale, nms,
+                   remover_outlier, resize)
+from cls2det.utils import Classifier
+from cls2det.utils import Config
 
 
 class Detector:
@@ -106,18 +103,19 @@ class Detector:
         draw(fname, img, dets, scores, save=self.cfg.save_folder)
         return np.array(dets), np.array(scores), np.array(len(dets) * ['dog'])
 
-    def generate_dt_json(self, json_save, folder='train'):
+    def generate_json(self, json_save, f='Gt', folder='train'):
         fname_list = self.cfg.data.fname_list.train if folder == 'train' else self.cfg.data.fname_list.val
         annos = get_img_annotations(fname_list, self.cfg.data.ann_dir, single_dog=False)
-        for anno in annos:
-            fname = anno['fname']
-            fname = os.path.join(self.cfg.data.img_dir, fname)
-            dets, scores, labels = self.detect_single(fname)
-            anno['annots']['boxes'] = dets.tolist()
-            anno['annots']['labels'] = labels.tolist()
-            anno['annots']['scores'] = scores.tolist()
-        coco_Dt = data2coco(annos, self.cfg.voc_categories)
+        if f != 'Gt':
+            for anno in annos:
+                fname = anno['fname']
+                fname = os.path.join(self.cfg.data.img_dir, fname)
+                dets, scores, labels = self.detect_single(fname)
+                anno['annots']['boxes'] = dets.tolist()
+                anno['annots']['labels'] = labels.tolist()
+                anno['annots']['scores'] = scores.tolist()
+        data = data2coco(annos, f, self.cfg.voc_categories)
         json_fp = open(json_save, 'w')
-        json_str = json.dumps(coco_Dt)
+        json_str = json.dumps(data)
         json_fp.write(json_str)
         json_fp.close()

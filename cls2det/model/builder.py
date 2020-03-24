@@ -1,10 +1,6 @@
-import sys
-
 import torch
 
-from model.model import resnet18
-
-sys.path.append('..')
+from .model import resnet18
 
 
 def model_builder(cfg):

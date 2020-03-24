@@ -2,7 +2,7 @@
 cls2det is an object detection tool based on PyTorch. Unlike most popular object detection algorithms, cls2det implement object detection with only a classifier pre-trained on ImageNet dataset.
 
 ## Benchmark
-Average Precision and Average Recall on class 'Dog'
+Average Precision and Average Recall on class 'dog'
 
 |       | AP<sub>50</sub> | AP<sub>40</sub> | AP<sub>30</sub> |
 | ----- | --------- | --------- | --------- |
@@ -14,8 +14,8 @@ Average Precision and Average Recall on class 'Dog'
 | train | 0.406     | 0.426     | 0.636     |
 | val   | 0.394     | 0.533     | 0.631     |
 
-- achieved good visual results by only using classifier without any training process
-- Although the metrics is not good as SOTA, the position of the prediction boxes is highly correlated with the ground truth from the perspective of the Intuitive feeling. In some cases, when the size of the prediction box does not need to be very accurate, this tool is very meaningful.
+- Achieve good visual results by only using a classifier without any training process
+- Although the metrics are not good as SOTA, the location of the bounding box prediction is highly correlated with the ground truth from the perspective of the intuitive feeling. In some cases, e.g. when the size of the bounding box prediction does not need to be very accurate, this tool is very meaningful.
 ### Requirements
 
 - Linux
@@ -49,7 +49,7 @@ pip install -r requirements.txt
 
 a. This tool is implemented based on PASCAL VOC dataset.
 
-b. Download Dataset and put the data into this `data` directory, the structure of data directory will look like as follows: 
+b. Download Dataset and put the data into `cls2det/data` directory, the structure of data directory will look like as follows: 
 
 ```shell
   data
@@ -63,37 +63,31 @@ b. Download Dataset and put the data into this `data` directory, the structure o
     └── imagenet.txt
 ```
 
-## Tools
-
+## Demo
 a. Config
 
-Modify some configuration accordingly in the config file like `configs/congif_detection.py`
-
-Note: Modify `work_dir` to your own path.
+Modify some configuration accordingly in the config file like `configs/detection.py`
 
 b. Run
 
 ```shell
-cd apis
-python demo.py --img_path XXX
+python tools/demo.py --img_path <path to image>
 ```
 
-where `XXX` is the path of image and result will be saved under `data/result`.
+where image with bounding box prediction and confidence will be stored under `data/result`.
 
-## Evaluation
+## Eval
 
 a. Config
 
-Modify some configuration accordingly in the config file like `configs/config_detection.py`
-
+Modify some configuration accordingly in the config file like `configs/detection.py`
 
 b. Run
 
 ```shell
-cd apis
-python eval.py
+python tools/eval.py 
 ```
 where the evaluation report will be shown.
 
 ## Examples
-![Aaron Swartz](https://raw.githubusercontent.com/YuxinZou/cls2det/master/032320081431_02009_004479.jpg?token=AKRPFDYBWFYHHELNLE46EHC6PCYGC)
+![example](example.jpg)

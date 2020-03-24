@@ -2,8 +2,8 @@ import torch
 import torch.nn.functional as F
 from torchvision import transforms
 
-from detection.util import get_label
-from model.builder import model_builder
+from cls2det.detection.util import get_label
+from cls2det.model import model_builder
 
 
 class Classifier:
