@@ -42,10 +42,10 @@ b. Install PyTorch and torchvision following the [official instructions](https:/
 conda install pytorch torchvision -c pytorch
 ```
 
-C. Clone the cls2det repository.
+c. Clone the cls2det repository.
 
 ```shell
-git clone https://github.com/YuxinZou/cls2det.git
+git clone https://github.com/Media-Smart/cls2det.git
 cd cls2det
 ```
 
@@ -57,7 +57,7 @@ pip install -r requirements.txt
 
 ## Prepare data
 
-b. Download [Pascal VOC 2012](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar)  and put the dataset into `cls2det/data` directory, the structure of data directory will look like as follows: 
+Download [Pascal VOC 2012](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar)  and put the dataset into `cls2det/data` directory, the structure of data directory will look like as follows: 
 
 ```shell
   data
@@ -82,7 +82,7 @@ b. Run
 python tools/demo.py --img_path <path to image>
 ```
 
-where image with bounding box prediction and confidence will be stored under `data/result`.
+Rendered image with bounding box prediction and confidence will be stored in `data/result`.
 
 ## Eval
 
@@ -95,5 +95,5 @@ b. Run
 ```shell
 python tools/eval.py 
 ```
-where the evaluation report will be shown.
+The evaluation report will be shown on terminal.
 
