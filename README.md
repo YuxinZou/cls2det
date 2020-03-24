@@ -39,7 +39,14 @@ b. Install PyTorch and torchvision following the [official instructions](https:/
 conda install pytorch torchvision -c pytorch
 ```
 
-c. Install dependencies.
+C. Clone the cls2det repository.
+
+```shell
+git clone https://github.com/YuxinZou/cls2det.git
+cd cls2det
+```
+
+d. Install dependencies.
 
 ```shell
 pip install -r requirements.txt
