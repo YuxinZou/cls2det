@@ -1,4 +1,5 @@
 import os
+import time
 import argparse
 import sys
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), '../../cls2det'))
@@ -20,8 +21,9 @@ def main():
     cfg_fp = args.config
     detect = Detector(cfg_fp)
     print(f'detect img {args.img_path}')
+    starttime = time.time()
     dets, scores, labels = detect.detect_single(args.img_path)
-    print(f'{len(dets)} dog are detected')
+    print(f'{len(dets)} dog are detected in {time.time() - starttime} second')
 
 
 if __name__ == '__main__':

@@ -66,15 +66,8 @@ def get_img_annotations(img_list, annotations_dir, standard='dog', single_dog=Fa
     return annotation
 
 
-def func(data, type='std'):
-    if type == 'std':
-        return np.var(data)
-    else:
-        ent = 0.0
-        for i in range(data.shape[0]):
-            p = data[i]
-            ent -= p * np.log2(p)
-        return ent
+def get_std(data):
+    return np.var(data)
 
 
 def nms(dets, scores, thresh):
@@ -212,8 +205,8 @@ def get_center(regions, value, type):
         elif type == 'geometry':
             center = np.array([(top + bottle) / 2, (left + right) / 2])
         else:
-            raise ValueError(f'no such type: {type}, '
-                             f'it should be among "direct", "gravity" and "geometry"')
+            raise Exception(f'no such type: {type}, '
+                            f'it should be among "direct", "gravity" and "geometry"')
         index = get_nearest_index(center, region)
         score = value[index[0]][index[1]]
         result.append([center, score, ratio])

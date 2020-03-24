@@ -4,7 +4,7 @@ import os
 import numpy as np
 from PIL import Image
 
-from .util import (box_rescale, cell2box, data2coco, draw, func,
+from .util import (box_rescale, cell2box, data2coco, draw, get_std,
                    get_img_annotations, get_label, get_scale, nms,
                    remover_outlier, resize)
 from cls2det.utils import Classifier
@@ -17,6 +17,9 @@ class Detector:
         self.classifier = Classifier(self.cfg)
         self.labels = get_label(self.cfg.data.class_txt)
         self.scales = get_scale(self.cfg)
+        if self.cfg.cls != 'dog':
+            raise Exception('currently this tool only support class "dog", '
+                            'other classes scoming soon!')
 
     def get_fg(self, img):
         fm = self.classifier.predict(img, type='fm')
@@ -24,7 +27,7 @@ class Detector:
         score, indices = fm.max(dim=2)
         value, indices, fm = score.cpu().numpy(), indices.cpu().numpy(), fm.cpu().numpy()
 
-        std_fm = [[func(fm[i][j]) for j in range(w)] for i in range(h)]
+        std_fm = [[get_std(fm[i][j]) for j in range(w)] for i in range(h)]
         std_fm = np.array(std_fm)
         bg_mask = std_fm > self.cfg.std_thres
 
@@ -101,7 +104,7 @@ class Detector:
             dets = dets[keep]
             scores = scores[keep]
         draw(fname, img, dets, scores, save=self.cfg.save_folder)
-        return np.array(dets), np.array(scores), np.array(len(dets) * ['dog'])
+        return np.array(dets), np.array(scores), np.array(len(dets) * [self.cfg.cls])
 
     def generate_json(self, json_save, f='Gt', folder='train'):
         fname_list = self.cfg.data.fname_list.train if folder == 'train' else self.cfg.data.fname_list.val

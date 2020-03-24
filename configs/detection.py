@@ -1,6 +1,6 @@
 # commom
 stride = 32
-gpu = None
+gpu = 0
 debug = False
 cls = 'dog'
 

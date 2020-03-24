@@ -2,7 +2,7 @@
 cls2det is an object detection tool based on PyTorch. Unlike most popular object detection algorithms, cls2det implement object detection with only a classifier pre-trained on ImageNet dataset.
 
 ## Benchmark
-Average Precision and Average Recall on class 'dog'
+Evaluation on class "dog" on PASCAL VOC 2012 dataset:
 
 |       | AP<sub>50</sub> | AP<sub>40</sub> | AP<sub>30</sub> |
 | ----- | --------- | --------- | --------- |
@@ -16,6 +16,9 @@ Average Precision and Average Recall on class 'dog'
 
 - Achieve good visual results by only using a classifier without any training process
 - Although the metrics are not good as SOTA, the location of the bounding box prediction is highly correlated with the ground truth from the perspective of the intuitive feeling. In some cases, e.g. when the size of the bounding box prediction does not need to be very accurate, this tool is very meaningful.
+
+![example](vis/example.jpg)
+
 ### Requirements
 
 - Linux
@@ -54,9 +57,7 @@ pip install -r requirements.txt
 
 ## Prepare data
 
-a. This tool is implemented based on PASCAL VOC dataset.
-
-b. Download Dataset and put the data into `cls2det/data` directory, the structure of data directory will look like as follows: 
+b. Download [Pascal VOC 2012](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar)  and put the dataset into `cls2det/data` directory, the structure of data directory will look like as follows: 
 
 ```shell
   data
@@ -96,5 +97,3 @@ python tools/eval.py
 ```
 where the evaluation report will be shown.
 
-## Examples
-![example](example.jpg)

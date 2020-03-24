@@ -14,8 +14,7 @@ class Classifier:
             transforms.ToTensor(),
             transforms.Normalize(self.cfg.norm_cfg.mean,
                                  self.cfg.norm_cfg.std)])
-        self.model = model_builder(self.cfg)
-        self.device = torch.device(f'cuda:{cfg.gpu}' if cfg.gpu is not None else "cpu")
+        self.model, self.device = model_builder(self.cfg)
 
     def predict(self, img, type):
         with torch.no_grad():
